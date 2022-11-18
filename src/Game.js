@@ -37,37 +37,35 @@ class Game {
     });
 
     window.addEventListener("MUSIC_PLAY", (e) => {
+      this.musicPaused = false;
       this.mode.playNormalSound();
     });
 
     window.addEventListener("MUSIC_PAUSE", (e) => {
+      this.musicPaused = true;
       this.mode.normalSound.pause();
       this.mode.dramaticSound.pause();
     });
 
-    // setInterval(() => {
-    //   if (!this.paused) {
-    //     window.dispatchEvent(
-    //       new CustomEvent("TIME_EVENT", { detail: { timeElapsed: 1 / 150 } })
-    //     );
-    //     this.draw(this.canvas.getContext("2d"));
-    //   }
-    // }, 1000 / 150);
-    requestAnimationFrame(this.clock.bind(this));
+    setInterval(() => {
+      if (!this.paused) {
+        window.dispatchEvent(
+          new CustomEvent("TIME_EVENT", { detail: { timeElapsed: 1 / 200 } })
+        );
+      }
+    }, 1000 / 200);
+    requestAnimationFrame(this.nextFrame.bind(this));
     this.menu.toggle("Galaxy Surfers", ["start", "musicControl"]);
     this.reset();
     this.paused = true;
   }
 
-  clock() {
+  nextFrame() {
     if (!this.paused) {
-      window.dispatchEvent(
-        new CustomEvent("TIME_EVENT", { detail: { timeElapsed: 1 / 150 } })
-      );
       this.draw(this.canvas.getContext("2d"));
       this.updateStatusBar();
     }
-    requestAnimationFrame(this.clock.bind(this));
+    requestAnimationFrame(this.nextFrame.bind(this));
   }
 
   reset() {
@@ -80,6 +78,10 @@ class Game {
     this.lastScore = null;
     this.environmentEntities = null;
     this.mode = new GameModeClassic(this);
+    if (this.musicPaused) {
+      this.mode.normalSound.pause();
+      this.mode.dramaticSound.pause();
+    }
     this.drawMainBoard();
     this.drawStatusBar();
     this.draw(this.canvas.getContext("2d"));
