@@ -45,7 +45,7 @@ export class GameModeClassic extends GameMode {
       document.getElementById("collectable_1")
     );
     game.drawMainBoard = (ctx) => {
-      document.body.style.backgroundImage = `url("../assets/environment_background_1.png")`;
+      document.body.style.backgroundImage = `url("./assets/environment_background_1.png")`;
       document.body.style.backgroundSize = "100% 100%";
     };
     setInterval(() => this.regularUpdate(game), 1000);
@@ -114,7 +114,7 @@ export class GameModeClassic extends GameMode {
   }
 
   initiliaseNormalSound() {
-    this.normalSound = new Audio("../assets/aurora.mp3");
+    this.normalSound = document.getElementById("music-aurora");
     this.normalSound.addEventListener(
       "ended",
       function () {
@@ -126,7 +126,7 @@ export class GameModeClassic extends GameMode {
   }
 
   initliaseDramaticSound() {
-    this.dramaticSound = new Audio("../assets/punisher.mp3");
+    this.dramaticSound = document.getElementById("music-punisher");
     this.dramaticSound.addEventListener(
       "ended",
       function () {
