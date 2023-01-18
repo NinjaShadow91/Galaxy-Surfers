@@ -52,6 +52,8 @@ class Game {
         window.dispatchEvent(
           new CustomEvent("TIME_EVENT", { detail: { timeElapsed: 1 / 200 } })
         );
+        this.detectCollision();
+        this.updateEntitiesArrays();
       }
     }, 1000 / 200);
     requestAnimationFrame(this.nextFrame.bind(this));
@@ -89,8 +91,6 @@ class Game {
 
   draw(ctx) {
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-    this.detectCollision();
-    this.updateEntitiesArrays();
     this.drawMainBoard(ctx);
     this.player.draw(ctx);
     this.enemies.forEach((enemy) => {
